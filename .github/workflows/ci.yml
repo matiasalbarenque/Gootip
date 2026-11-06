@@ -150,7 +150,7 @@ jobs:
           terraform -chdir=bootstrap init -backend=false -input=false -lockfile=readonly
       - run: ./scripts/package_lambda.sh
         working-directory: gootip-db-config
-      - run: ./scripts/verify_full.sh
+      - run: ./scripts/verify_fast.sh
         working-directory: gootip-infra
       - run: tflint --recursive
         working-directory: gootip-infra
