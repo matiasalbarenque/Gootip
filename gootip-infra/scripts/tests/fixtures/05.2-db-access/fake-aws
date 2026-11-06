@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""Offline AWS CLI stub for the SPEC 05.2 db_access.sh command tests.
+
+The scenario file supplies deterministic, non-real responses. The log records
+only command arguments; it never receives a secret value because the helper
+never passes one on a command line.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import time
+
+
+def load_json(path: str):
+    with open(path, "r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def emit(payload) -> None:
+    json.dump(payload, sys.stdout)
+    sys.stdout.write("\n")
+
+
+def fail(message: str) -> None:
+    print(f"fake-aws: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+
+def main() -> None:
+    scenario_path = os.environ.get("GOOTIP_DB_ACCESS_SCENARIO")
+    log_path = os.environ.get("GOOTIP_DB_ACCESS_AWS_LOG")
+    if not scenario_path or not log_path:
+        fail("missing test scenario or log path")
+
+    args = sys.argv[1:]
+    with open(log_path, "a", encoding="utf-8") as log:
+        log.write(json.dumps(args) + "\n")
+
+    scenario = load_json(scenario_path)
+
+    if "sts" in args and "get-caller-identity" in args:
+        emit(scenario["identity"])
+        return
+
+    if "describe-instance-connect-endpoints" in args:
+        emit({"InstanceConnectEndpoints": scenario.get("eice", [])})
+        return
+
+    if "describe-instances" in args:
+        emit({"Reservations": [{"Instances": scenario.get("instances", [])}]})
+        return
+
+    if "start-instances" in args:
+        if scenario.get("fail_start"):
+            fail("start-instances failed")
+        emit({"StartingInstances": []})
+        return
+
+    if "stop-instances" in args:
+        if scenario.get("fail_stop"):
+            fail("stop-instances failed")
+        emit({"StoppingInstances": []})
+        return
+
+    if "wait" in args:
+        operation = args[args.index("wait") + 1]
+        if scenario.get("wait_fail") == operation:
+            fail(f"{operation} waiter failed")
+        emit({})
+        return
+
+    if "describe-db-instances" in args:
+        emit({"DBInstances": scenario.get("rds", [])})
+        return
+
+    if "get-secret-value" in args:
+        if scenario.get("secret_error"):
+            fail("get-secret-value failed")
+        secret = scenario.get("secret", {})
+        emit(
+            {
+                "ARN": scenario.get(
+                    "secret_arn",
+                    "arn:aws:secretsmanager:us-east-2:123456789012:"
+                    "secret:gootip-dev-db-operator-Ab12Cd",
+                ),
+                "Name": "gootip-dev-db-operator",
+                "SecretString": json.dumps(secret),
+            }
+        )
+        return
+
+    if "ec2-instance-connect" in args and "ssh" in args:
+        marker = scenario.get("ssh_marker")
+        if marker:
+            with open(marker, "w", encoding="utf-8") as handle:
+                handle.write("ssh started\n")
+        delay = scenario.get("ssh_sleep", 0)
+        if delay:
+            time.sleep(float(delay))
+        raise SystemExit(int(scenario.get("ssh_exit", 0)))
+
+    fail("unsupported command: " + " ".join(args))
+
+
+if __name__ == "__main__":
+    main()

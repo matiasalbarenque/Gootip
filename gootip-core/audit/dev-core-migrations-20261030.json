@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-30",
+  "environment": "dev",
+  "region": "us-east-2",
+  "function": "gootip-dev-core-migrations",
+  "alias": {
+    "name": "deployment",
+    "version": "1",
+    "weighted_routing": false,
+    "code_sha256_base64": "Xzw3vkS7I2X4WGAbfhNGPk3R67DDW4potKBPpdIU5NQ="
+  },
+  "artifact": {
+    "commit_sha": "b9cb79106971d963ed13cbced8721e450fdf9ce7",
+    "manifest_sha256": "4fa377e9dca2db9fcfe5b3247548a2a1fafd8ed456826d91e070591799bae576",
+    "zip_sha256_base64": "Xzw3vkS7I2X4WGAbfhNGPk3R67DDW4potKBPpdIU5NQ="
+  },
+  "initial_validate": {
+    "run_id": "a5a7e851-26ec-410f-9c91-cdf8d1de7df6",
+    "status": "succeeded",
+    "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "applied_names": [],
+    "pending_names": [
+      "CreateCategories1782086400000",
+      "CreateProducts1793059200000"
+    ],
+    "error_code": null
+  },
+  "apply": {
+    "run_id": "878fbdb4-2e4b-4f8c-a1fc-f696c5b4d68e",
+    "status": "succeeded",
+    "history_sha256": "86329e57e10a79b9cb9eeb014f9b51ae35f91e2b5a71cf7019768bb142190103",
+    "applied_names": [
+      "CreateCategories1782086400000",
+      "CreateProducts1793059200000"
+    ],
+    "pending_names": [],
+    "error_code": null
+  },
+  "post_apply_validate": {
+    "run_id": "7714e55f-e179-487c-81bb-e142f49c4129",
+    "status": "succeeded",
+    "history_sha256": "86329e57e10a79b9cb9eeb014f9b51ae35f91e2b5a71cf7019768bb142190103",
+    "applied_names": [
+      "CreateCategories1782086400000",
+      "CreateProducts1793059200000"
+    ],
+    "pending_names": [],
+    "error_code": null
+  },
+  "repeat_apply": {
+    "run_id": "dc58a8a7-53a8-44eb-9101-432af7cb7a5a",
+    "status": "no_changes",
+    "history_sha256": "86329e57e10a79b9cb9eeb014f9b51ae35f91e2b5a71cf7019768bb142190103",
+    "applied_names": [
+      "CreateCategories1782086400000",
+      "CreateProducts1793059200000"
+    ],
+    "pending_names": [],
+    "error_code": null
+  },
+  "transport": {
+    "all_invocations_status_code": 200,
+    "function_errors": null
+  },
+  "post_sequence_verification": {
+    "function_state": "Active",
+    "last_update_status": "Successful",
+    "reserved_concurrent_executions": 1,
+    "alias_version": "1",
+    "weighted_routing": false,
+    "code_sha256_base64": "Xzw3vkS7I2X4WGAbfhNGPk3R67DDW4potKBPpdIU5NQ="
+  },
+  "local_checks": {
+    "unit_tests": "72 passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "format_check": "passed"
+  },
+  "live_rds_catalog_and_privilege_checks": {
+    "status": "verified_read_only_on_live_rds",
+    "expected_catalog": [
+      "core.categories",
+      "core.products",
+      "core.typeorm_migrations"
+    ],
+    "expected_runtime_checks": [
+      "core_runtime catalog DML allowed",
+      "core_runtime DDL denied",
+      "core_runtime history SELECT and writes denied",
+      "Core identities isolated from Auth and public schema creation"
+    ],
+    "connection_observation": "No listener on the documented RDS tunnel port 15432; the only PostgreSQL listener observed was local Docker on 127.0.0.1:5433.",
+    "tunnel_host_observation": {
+      "instance_id": "i-0123456789abcdef0",
+      "state_before_user_started_tunnel": "stopped",
+      "identity": "GootipDatabaseOperator in account 123456789012"
+    },
+    "latest_tunnel_observation": "A user-started SSH listener was observed on 127.0.0.1:15432 and used for the read-only RDS verification below.",
+    "actions_taken": "Read-only EC2 description confirmed the tunnel host stopped before the user started it. This session did not start or stop the host. SQL was run only as gootip_dev_operator in a READ ONLY transaction; no database data or permissions changed."
+  },
+  "spec14_isolated_integration_reuse": {
+    "inputs_unchanged": true,
+    "evidence": "gootip-infra/specs/14-core-administrative-bootstrap.md, 2026-10-30 verification boundary",
+    "reported_results": "25 DB-config integration tests and the TypeORM migration integration test (1/1) passed against isolated PostgreSQL 18 fixtures; test databases and roles were removed.",
+    "scope_note": "This is isolated-fixture evidence, not a live post-migration RDS catalog or effective-permission check."
+  },
+  "live_rds_readonly_verification": {
+    "date": "2026-10-30",
+    "connection_identity": "gootip_dev_operator",
+    "database": "gootip",
+    "transaction_read_only": true,
+    "tls": {
+      "verified_by_client": "sslmode=verify-full with the reviewed RDS CA bundle and real RDS endpoint hostname",
+      "server_observation": "TLSv1.3",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    },
+    "core_tables": [
+      {"name": "categories", "owner": "core_migrator"},
+      {"name": "products", "owner": "core_migrator"},
+      {"name": "typeorm_migrations", "owner": "core_migrator"}
+    ],
+    "history": [
+      {"name": "CreateCategories1782086400000", "timestamp": 1782086400000},
+      {"name": "CreateProducts1793059200000", "timestamp": 1793059200000}
+    ],
+    "runtime_effective_privileges": {
+      "categories": {"select": true, "insert": true, "update": true, "delete": true},
+      "products": {"select": true, "insert": true, "update": true, "delete": true},
+      "core_schema_usage": true,
+      "core_schema_create": false,
+      "history_table": {"select": false, "insert": false, "update": false, "delete": false},
+      "history_sequence": {"usage": false, "select": false, "update": false},
+      "auth_relations_selectable": 0,
+      "auth_relations_modifiable": 0,
+      "auth_schema_usage": false,
+      "public_schema_create": false,
+      "member_of_core_migrator": false,
+      "core_migrator_member_of_runtime": false,
+      "member_of_auth_runtime": false,
+      "member_of_auth_migrator": false
+    },
+    "catalog_indexes_and_constraints": "Expected category/product primary keys, unique indexes, product indexes, foreign key, and checks were present.",
+    "data_or_permission_changes": "None; all SQL ran in a READ ONLY transaction and was rolled back."
+  },
+  "spec06_status": "Implemented",
+  "spec06_complete": true,
+  "api_activation": "not_performed"
+}

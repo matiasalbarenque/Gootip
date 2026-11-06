@@ -1,0 +1,452 @@
+{
+  "manifest_version": 1,
+  "service": "auth",
+  "schema": "auth",
+  "commit_sha": "91bb71fbb5312f8d4c3ea85d3bd460fdb601bbb5",
+  "better_auth_version": "1.7.7",
+  "generator_version": "1.7.7",
+  "configuration_sha256": "b385326710a59e38e21bf1e5a2dd6d167b48b53c39e11586fb93a3e407952c65",
+  "migrations": [
+    {
+      "id": "000001",
+      "file": "000001-initial-auth.sql",
+      "sha256": "d31c9cc7d0f7f9fdd472d677d268c2fe316d923993efc73b39d7d4f4ee55ae23"
+    },
+    {
+      "id": "000002",
+      "file": "000002-auth-rate-limit.sql",
+      "sha256": "83639dd0b1d4c74f951561907d156a7c14c50f748cecc50e8134f8ef6cbb9606"
+    },
+    {
+      "id": "000003",
+      "file": "000003-auth-admin-roles.sql",
+      "sha256": "5467ed8d7bec98bd15b81f8519ac94851964cb263e1fcfc152fa8c1646750843"
+    }
+  ],
+  "initial_schema_fingerprint": "861646d4abe55c89afa062fa7ffa688a6499608c462cf8c13e39f4b7591be599",
+  "initial_schema": {
+    "schema": "auth",
+    "tables": [
+      {
+        "name": "account",
+        "columns": [
+          {
+            "name": "accessToken",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "accessTokenExpiresAt",
+            "dataType": "timestamp with time zone",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "accountId",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "createdAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          },
+          {
+            "name": "id",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "idToken",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "password",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "providerId",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "refreshToken",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "refreshTokenExpiresAt",
+            "dataType": "timestamp with time zone",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "scope",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "updatedAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "userId",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          }
+        ],
+        "constraints": [
+          {
+            "name": "account_pkey",
+            "kind": "primary_key",
+            "columns": [
+              "id"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          },
+          {
+            "name": "account_userId_fkey",
+            "kind": "foreign_key",
+            "columns": [
+              "userId"
+            ],
+            "referencesSchema": "auth",
+            "referencesTable": "user",
+            "referencesColumns": [
+              "id"
+            ],
+            "onDelete": "CASCADE"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "account_userId_idx",
+            "unique": false,
+            "valid": true,
+            "partial": false,
+            "columns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "jwks",
+        "columns": [
+          {
+            "name": "alg",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "createdAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "crv",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "expiresAt",
+            "dataType": "timestamp with time zone",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "id",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "privateKey",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "publicKey",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          }
+        ],
+        "constraints": [
+          {
+            "name": "jwks_pkey",
+            "kind": "primary_key",
+            "columns": [
+              "id"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          }
+        ],
+        "indexes": []
+      },
+      {
+        "name": "session",
+        "columns": [
+          {
+            "name": "createdAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          },
+          {
+            "name": "expiresAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "id",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "ipAddress",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "token",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "updatedAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "userAgent",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "userId",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          }
+        ],
+        "constraints": [
+          {
+            "name": "session_pkey",
+            "kind": "primary_key",
+            "columns": [
+              "id"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          },
+          {
+            "name": "session_token_key",
+            "kind": "unique",
+            "columns": [
+              "token"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          },
+          {
+            "name": "session_userId_fkey",
+            "kind": "foreign_key",
+            "columns": [
+              "userId"
+            ],
+            "referencesSchema": "auth",
+            "referencesTable": "user",
+            "referencesColumns": [
+              "id"
+            ],
+            "onDelete": "CASCADE"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "session_userId_idx",
+            "unique": false,
+            "valid": true,
+            "partial": false,
+            "columns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "user",
+        "columns": [
+          {
+            "name": "createdAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          },
+          {
+            "name": "email",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "emailVerified",
+            "dataType": "boolean",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "id",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "image",
+            "dataType": "text",
+            "nullable": true,
+            "default": null
+          },
+          {
+            "name": "name",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "updatedAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          }
+        ],
+        "constraints": [
+          {
+            "name": "user_email_key",
+            "kind": "unique",
+            "columns": [
+              "email"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          },
+          {
+            "name": "user_pkey",
+            "kind": "primary_key",
+            "columns": [
+              "id"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          }
+        ],
+        "indexes": []
+      },
+      {
+        "name": "verification",
+        "columns": [
+          {
+            "name": "createdAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          },
+          {
+            "name": "expiresAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "id",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "identifier",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          },
+          {
+            "name": "updatedAt",
+            "dataType": "timestamp with time zone",
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP"
+          },
+          {
+            "name": "value",
+            "dataType": "text",
+            "nullable": false,
+            "default": null
+          }
+        ],
+        "constraints": [
+          {
+            "name": "verification_pkey",
+            "kind": "primary_key",
+            "columns": [
+              "id"
+            ],
+            "referencesSchema": null,
+            "referencesTable": null,
+            "referencesColumns": [],
+            "onDelete": null
+          }
+        ],
+        "indexes": [
+          {
+            "name": "verification_identifier_idx",
+            "unique": false,
+            "valid": true,
+            "partial": false,
+            "columns": [
+              "identifier"
+            ]
+          }
+        ]
+      }
+    ],
+    "sequences": []
+  }
+}

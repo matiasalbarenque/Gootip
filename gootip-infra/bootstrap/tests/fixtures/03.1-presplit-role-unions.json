@@ -1,0 +1,630 @@
+{
+  "account_id": "123456789012",
+  "admin": {
+    "CreateExactAdministrativePassRolePolicy": {
+      "Action": [
+        "iam:UntagPolicy",
+        "iam:TagPolicy",
+        "iam:ListPolicyTags",
+        "iam:CreatePolicy"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:policy/gootip/deployment/GootipTerraformDeployAdministrativePassRole",
+      "Sid": "CreateExactAdministrativePassRolePolicy"
+    },
+    "CreateExactRdsServiceLinkedRole": {
+      "Action": "iam:CreateServiceLinkedRole",
+      "Condition": {
+        "StringEquals": {
+          "iam:AWSServiceName": "rds.amazonaws.com"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS",
+      "Sid": "CreateExactRdsServiceLinkedRole"
+    },
+    "DenyEveryOtherSecret": {
+      "Action": [
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue"
+      ],
+      "Effect": "Deny",
+      "NotResource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:gootip-auth-dev-AbC123",
+      "Sid": "DenyEveryOtherSecret"
+    },
+    "DenyRdsManagedMasterSecretOperations": {
+      "Action": [
+        "secretsmanager:UpdateSecretVersionStage",
+        "secretsmanager:UpdateSecret",
+        "secretsmanager:UntagResource",
+        "secretsmanager:TagResource",
+        "secretsmanager:RotateSecret",
+        "secretsmanager:RestoreSecret",
+        "secretsmanager:ReplicateSecretToRegions",
+        "secretsmanager:RemoveRegionsFromReplication",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:PutResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:DeleteSecret",
+        "secretsmanager:DeleteResourcePolicy",
+        "secretsmanager:CancelRotateSecret",
+        "secretsmanager:BatchGetSecretValue"
+      ],
+      "Effect": "Deny",
+      "Resource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:rds!db-1a2b3c4d-5e6f-7a8b-9c0d-abcdef",
+      "Sid": "DenyRdsManagedMasterSecretOperations"
+    },
+    "DescribeExactRdsManagedKmsKey": {
+      "Action": "kms:DescribeKey",
+      "Effect": "Allow",
+      "Resource": "arn:aws:kms:us-east-2:123456789012:key/e0638b06-ad54-4317-9670-694aaa5fc422",
+      "Sid": "DescribeExactRdsManagedKmsKey"
+    },
+    "ListKmsAliasesInFoundationRegion": {
+      "Action": "kms:ListAliases",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ListKmsAliasesInFoundationRegion"
+    },
+    "ListOnlyApprovedStateVersions": {
+      "Action": "s3:ListBucketVersions",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012",
+          "s3:prefix": [
+            "bootstrap/terraform.tfstate",
+            "gootip/dev/terraform.tfstate"
+          ]
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ListOnlyApprovedStateVersions"
+    },
+    "LookupFoundationCloudTrailEventsInRegion": {
+      "Action": "cloudtrail:LookupEvents",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "LookupFoundationCloudTrailEventsInRegion"
+    },
+    "ManageBootstrapLockOnly": {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012/bootstrap/terraform.tfstate.tflock",
+      "Sid": "ManageBootstrapLockOnly"
+    },
+    "ManageExactApprovedSecretContainers": {
+      "Action": [
+        "secretsmanager:UntagResource",
+        "secretsmanager:TagResource",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:DescribeSecret"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:secretsmanager:us-east-2:123456789012:secret:gootip-dev-auth-runtime-*",
+        "arn:aws:secretsmanager:us-east-2:123456789012:secret:gootip-dev-auth-migrator-*",
+        "arn:aws:secretsmanager:us-east-2:123456789012:secret:gootip-auth-dev-AbC123"
+      ],
+      "Sid": "ManageExactApprovedSecretContainers"
+    },
+    "ManageExactHumanRolesAndPolicies": {
+      "Action": [
+        "iam:UpdateRole",
+        "iam:UpdateAssumeRolePolicy",
+        "iam:TagRole",
+        "iam:SetDefaultPolicyVersion",
+        "iam:PutRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListPolicyVersions",
+        "iam:ListAttachedRolePolicies",
+        "iam:GetRolePolicy",
+        "iam:GetRole",
+        "iam:GetPolicyVersion",
+        "iam:GetPolicy",
+        "iam:DetachRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:DeletePolicyVersion",
+        "iam:CreatePolicyVersion",
+        "iam:AttachRolePolicy"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::123456789012:role/gootip/deployment/GootipTerraformDeploy",
+        "arn:aws:iam::123456789012:role/gootip/bootstrap/GootipBootstrapAdmin",
+        "arn:aws:iam::123456789012:policy/gootip/deployment/GootipTerraformDeployPermissions",
+        "arn:aws:iam::123456789012:policy/gootip/deployment/GootipTerraformDeployAdministrativePassRole",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipSourceUserAssumeOnlyBoundary",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipSourceUserAssumeOnly",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipBootstrapStatePermissions",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipBootstrapDiagnosticsPermissions",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipBootstrapAdminPermissions",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipApplicationRuntimeBoundary"
+      ],
+      "Sid": "ManageExactHumanRolesAndPolicies"
+    },
+    "ManageExactSplitPolicyTags": {
+      "Action": [
+        "iam:UntagPolicy",
+        "iam:TagPolicy"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipBootstrapStatePermissions",
+        "arn:aws:iam::123456789012:policy/gootip/bootstrap/GootipBootstrapDiagnosticsPermissions"
+      ],
+      "Sid": "ManageExactSplitPolicyTags"
+    },
+    "ManageExactStateBucketConfiguration": {
+      "Action": [
+        "s3:PutBucketVersioning",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:PutBucketPolicy",
+        "s3:PutBucketOwnershipControls",
+        "s3:PutBucketEncryption",
+        "s3:GetEncryptionConfiguration",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetBucketPolicy",
+        "s3:GetBucketOwnershipControls",
+        "s3:GetBucketAcl",
+        "s3:DeleteBucketPolicy"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ManageExactStateBucketConfiguration"
+    },
+    "ManageSourceUserCutoverOnly": {
+      "Action": [
+        "iam:PutUserPolicy",
+        "iam:PutUserPermissionsBoundary",
+        "iam:ListUserPolicies",
+        "iam:ListGroupsForUser",
+        "iam:ListAttachedUserPolicies",
+        "iam:GetUserPolicy",
+        "iam:GetUser",
+        "iam:DetachUserPolicy",
+        "iam:DeleteUserPolicy",
+        "iam:DeleteUserPermissionsBoundary",
+        "iam:AttachUserPolicy"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:user/gootip",
+      "Sid": "ManageSourceUserCutoverOnly"
+    },
+    "OperateExactApprovedSecretValues": {
+      "Action": [
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:gootip-auth-dev-AbC123",
+      "Sid": "OperateExactApprovedSecretValues"
+    },
+    "ReadBootstrapStateBucketRegion": {
+      "Action": "s3:GetBucketLocation",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ReadBootstrapStateBucketRegion"
+    },
+    "ReadExactRdsServiceLinkedRole": {
+      "Action": "iam:GetRole",
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS",
+      "Sid": "ReadExactRdsServiceLinkedRole"
+    },
+    "ReadExactStateBucketConfiguration": {
+      "Action": [
+        "s3:GetReplicationConfiguration",
+        "s3:GetLifecycleConfiguration",
+        "s3:GetEncryptionConfiguration",
+        "s3:GetBucketWebsite",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketTagging",
+        "s3:GetBucketRequestPayment",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetBucketPolicy",
+        "s3:GetBucketOwnershipControls",
+        "s3:GetBucketObjectLockConfiguration",
+        "s3:GetBucketLogging",
+        "s3:GetBucketLocation",
+        "s3:GetBucketCORS",
+        "s3:GetBucketAcl",
+        "s3:GetAccelerateConfiguration"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ReadExactStateBucketConfiguration"
+    },
+    "ReadExactStateBucketExistence": {
+      "Action": "s3:ListBucket",
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ReadExactStateBucketExistence"
+    },
+    "ReadWriteBootstrapStateOnly": {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012/bootstrap/terraform.tfstate",
+      "Sid": "ReadWriteBootstrapStateOnly"
+    },
+    "RecoverOnlyApprovedStateVersions": {
+      "Action": "s3:GetObjectVersion",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::gootip-terraform-state-123456789012/gootip/dev/terraform.tfstate",
+        "arn:aws:s3:::gootip-terraform-state-123456789012/bootstrap/terraform.tfstate"
+      ],
+      "Sid": "RecoverOnlyApprovedStateVersions"
+    },
+    "RemoveSourceUserFromAccountGroups": {
+      "Action": "iam:RemoveUserFromGroup",
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:group/*",
+      "Sid": "RemoveSourceUserFromAccountGroups"
+    },
+    "RestoreOnlyApprovedStateObjects": {
+      "Action": "s3:PutObject",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::gootip-terraform-state-123456789012/gootip/dev/terraform.tfstate",
+        "arn:aws:s3:::gootip-terraform-state-123456789012/bootstrap/terraform.tfstate"
+      ],
+      "Sid": "RestoreOnlyApprovedStateObjects"
+    }
+  },
+  "deploy": {
+    "AllowApplicationLockOnly": {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012/gootip/dev/terraform.tfstate.tflock",
+      "Sid": "AllowApplicationLockOnly"
+    },
+    "AllowApplicationStateOnly": {
+      "Action": "s3:ListBucket",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012",
+          "s3:prefix": [
+            "gootip/dev/terraform.tfstate",
+            "gootip/dev/terraform.tfstate.tflock"
+          ]
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "AllowApplicationStateOnly"
+    },
+    "AllowApplicationStateReadWrite": {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012/gootip/dev/terraform.tfstate",
+      "Sid": "AllowApplicationStateReadWrite"
+    },
+    "AllowRdsEngineAndOrderableDiscovery": {
+      "Action": [
+        "rds:DescribeOrderableDBInstanceOptions",
+        "rds:DescribeDBEngineVersions"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "AllowRdsEngineAndOrderableDiscovery"
+    },
+    "ConfigureAndReadExactFoundationRdsResources": {
+      "Action": [
+        "rds:ModifyDBParameterGroup",
+        "rds:ListTagsForResource",
+        "rds:DescribeDBSubnetGroups",
+        "rds:DescribeDBParameters",
+        "rds:DescribeDBParameterGroups",
+        "rds:DescribeDBInstances",
+        "rds:AddTagsToResource"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:rds:us-east-2:123456789012:subgrp:gootip-dev",
+        "arn:aws:rds:us-east-2:123456789012:pg:gootip-dev-postgres",
+        "arn:aws:rds:us-east-2:123456789012:db:gootip-dev"
+      ],
+      "Sid": "ConfigureAndReadExactFoundationRdsResources"
+    },
+    "CreateFoundationNetworkResources": {
+      "Action": [
+        "ec2:CreateVpcEndpoint",
+        "ec2:CreateVpc",
+        "ec2:CreateSubnet",
+        "ec2:CreateSecurityGroup",
+        "ec2:CreateRouteTable"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "CreateFoundationNetworkResources"
+    },
+    "CreateOnlyRdsManagedMasterSecret": {
+      "Action": "secretsmanager:CreateSecret",
+      "Condition": {
+        "StringLike": {
+          "secretsmanager:Name": "rds!db-*"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:rds!db-*",
+      "Sid": "CreateOnlyRdsManagedMasterSecret"
+    },
+    "CreateProtectedFoundationRdsResources": {
+      "Action": [
+        "rds:CreateDBSubnetGroup",
+        "rds:CreateDBParameterGroup",
+        "rds:CreateDBInstance"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "CreateProtectedFoundationRdsResources"
+    },
+    "DenyNonRdsSecretsManagerCreateAndTag": {
+      "Action": [
+        "secretsmanager:TagResource",
+        "secretsmanager:CreateSecret"
+      ],
+      "Effect": "Deny",
+      "NotResource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:rds!db-*",
+      "Sid": "DenyNonRdsSecretsManagerCreateAndTag"
+    },
+    "DenySecretsManagerMutationAndValues": {
+      "Action": [
+        "secretsmanager:UpdateSecretVersionStage",
+        "secretsmanager:UpdateSecret",
+        "secretsmanager:UntagResource",
+        "secretsmanager:RotateSecret",
+        "secretsmanager:RestoreSecret",
+        "secretsmanager:ReplicateSecretToRegions",
+        "secretsmanager:RemoveRegionsFromReplication",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:PutResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:DeleteSecret",
+        "secretsmanager:DeleteResourcePolicy",
+        "secretsmanager:CancelRotateSecret",
+        "secretsmanager:BatchGetSecretValue"
+      ],
+      "Effect": "Deny",
+      "Resource": "*",
+      "Sid": "DenySecretsManagerMutationAndValues"
+    },
+    "DescribeExactSecretsManagerManagedKmsKey": {
+      "Action": "kms:DescribeKey",
+      "Effect": "Allow",
+      "Resource": "arn:aws:kms:us-east-2:123456789012:key/e0638b06-ad54-4317-9670-694aaa5fc422",
+      "Sid": "DescribeExactSecretsManagerManagedKmsKey"
+    },
+    "DiscoverGootipRdsInstancesInRegion": {
+      "Action": "rds:DescribeDBInstances",
+      "Effect": "Allow",
+      "Resource": "arn:aws:rds:us-east-2:123456789012:db:*",
+      "Sid": "DiscoverGootipRdsInstancesInRegion"
+    },
+    "PassExactAdministrativeFunctionRole": {
+      "Action": "iam:PassRole",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": "lambda.amazonaws.com"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::123456789012:role/gootip/administrative/gootip-db-config-dev-lambda",
+      "Sid": "PassExactAdministrativeFunctionRole"
+    },
+    "PublishExactRdsCaLayer": {
+      "Action": "lambda:PublishLayerVersion",
+      "Effect": "Allow",
+      "Resource": "arn:aws:lambda:us-east-2:123456789012:layer:gootip-dev-rds-ca",
+      "Sid": "PublishExactRdsCaLayer"
+    },
+    "ReadAndAssociateFoundationNetworkResources": {
+      "Action": [
+        "ec2:ModifyVpcAttribute",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeVpcEndpoints",
+        "ec2:DescribeVpcEndpointServices",
+        "ec2:DescribeVpcAttribute",
+        "ec2:DescribeTags",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribePrefixLists",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeNetworkAcls",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:AssociateRouteTable"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ReadAndAssociateFoundationNetworkResources"
+    },
+    "ReadApplicationStateBucketRegion": {
+      "Action": "s3:GetBucketLocation",
+      "Condition": {
+        "StringEquals": {
+          "s3:ResourceAccount": "123456789012"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::gootip-terraform-state-123456789012",
+      "Sid": "ReadApplicationStateBucketRegion"
+    },
+    "ReadAvailabilityZonesInConfiguredRegion": {
+      "Action": "ec2:DescribeAvailabilityZones",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ReadAvailabilityZonesInConfiguredRegion"
+    },
+    "ReadExactRdsCaLayerVersions": {
+      "Action": "lambda:GetLayerVersion",
+      "Effect": "Allow",
+      "Resource": "arn:aws:lambda:us-east-2:123456789012:layer:gootip-dev-rds-ca:*",
+      "Sid": "ReadExactRdsCaLayerVersions"
+    },
+    "ReadFoundationRdsAccountAttributes": {
+      "Action": "rds:DescribeAccountAttributes",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ReadFoundationRdsAccountAttributes"
+    },
+    "ReadFoundationServiceQuotas": {
+      "Action": "servicequotas:ListServiceQuotas",
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ReadFoundationServiceQuotas"
+    },
+    "ReadFreeTierEligibilityAndUsage": {
+      "Action": [
+        "freetier:GetFreeTierUsage",
+        "freetier:GetAccountPlanState"
+      ],
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "ReadFreeTierEligibilityAndUsage"
+    },
+    "RevokeEgressOnlyFromTaggedFoundationSecurityGroups": {
+      "Action": "ec2:RevokeSecurityGroupEgress",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/env": "dev",
+          "aws:ResourceTag/managed_by": "terraform",
+          "aws:ResourceTag/project": "gootip"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "arn:aws:ec2:us-east-2:123456789012:security-group/*",
+      "Sid": "RevokeEgressOnlyFromTaggedFoundationSecurityGroups"
+    },
+    "TagFoundationNetworkResources": {
+      "Action": "ec2:CreateTags",
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": [
+            "Name",
+            "project",
+            "env",
+            "managed_by"
+          ]
+        },
+        "StringEquals": {
+          "aws:RequestTag/env": "dev",
+          "aws:RequestTag/managed_by": "terraform",
+          "aws:RequestTag/project": "gootip",
+          "aws:RequestedRegion": "us-east-2"
+        }
+      },
+      "Effect": "Allow",
+      "Resource": "*",
+      "Sid": "TagFoundationNetworkResources"
+    },
+    "TagOnlyRdsManagedMasterSecrets": {
+      "Action": "secretsmanager:TagResource",
+      "Effect": "Allow",
+      "Resource": "arn:aws:secretsmanager:us-east-2:123456789012:secret:rds!db-*",
+      "Sid": "TagOnlyRdsManagedMasterSecrets"
+    }
+  }
+}

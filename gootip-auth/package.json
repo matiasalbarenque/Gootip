@@ -1,0 +1,60 @@
+{
+  "name": "gootip-auth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/node/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "build:lambda": "node scripts/build-lambda.mjs",
+    "lambda:zip": "node scripts/package-lambda.mjs",
+    "build:migration-lambda": "node scripts/build-migration-lambda.mjs",
+    "migration-lambda:zip": "tsx scripts/package-migration-lambda.ts",
+    "migration:manifest": "tsx scripts/generate-migration-manifest.ts",
+    "bootstrap:admin": "tsx scripts/bootstrap-admin.ts",
+    "local:seed-users": "tsx scripts/seed-local-users.ts",
+    "local:migrate": "tsx scripts/local-migrate.ts",
+    "auth:migrate": "auth migrate --config ./src/auth/auth.cli.ts --yes",
+    "auth:check": "auth check schema --config ./src/auth/auth.cli.ts",
+    "test": "vitest run",
+    "test:integration:migrations": "vitest run test/migration-integration.spec.ts",
+    "test:integration:runtime": "vitest run test/runtime-integration.spec.ts",
+    "test:integration:rotation": "vitest run test/credential-rotation.integration.spec.ts",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src/ test/ scripts/",
+    "format": "oxfmt src/ test/ scripts/ *.json *.md *.yml",
+    "format:check": "oxfmt --check src/ test/ scripts/ *.json *.md *.yml"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "3.1149.0",
+    "@hono/aws-lambda": "1.0.1",
+    "@hono/node-server": "2.1.4",
+    "better-auth": "1.7.7",
+    "dotenv": "18.0.5",
+    "hono": "4.13.13",
+    "kysely": "0.29.6",
+    "pg": "8.23.1",
+    "zod": "4.6.6"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.164",
+    "@types/node": "24.0.0",
+    "@types/pg": "8.23.1",
+    "@vitest/coverage-v8": "5.0.3",
+    "auth": "1.7.7",
+    "esbuild": "0.28.2",
+    "oxfmt": "0.72.0",
+    "oxlint": "1.87.0",
+    "tsx": "4.20.6",
+    "typescript": "6.0.3",
+    "vitest": "5.0.3"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": "12.14.0"
+  },
+  "packageManager": "pnpm@12.14.0"
+}

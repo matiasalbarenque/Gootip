@@ -1,0 +1,7 @@
+bucket              = "__BUCKET__"
+key                 = "__KEY__"
+region              = "__REGION__"
+encrypt             = true
+use_lockfile        = true
+allowed_account_ids = ["__ACCOUNT_ID__"]
+profile             = "__PROFILE__"

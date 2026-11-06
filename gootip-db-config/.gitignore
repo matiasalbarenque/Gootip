@@ -1,0 +1,8 @@
+# Local build and test artifacts for gootip-db-config.
+.venv/
+__pycache__/
+*.pyc
+build/
+lambda.zip
+.pytest_cache/
+.ruff_cache/

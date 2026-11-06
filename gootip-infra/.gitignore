@@ -1,0 +1,81 @@
+# Terraform state - S3 backend with use_lockfile = true, never commit local state
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform.tfstate.lock.info
+.terraform/
+# NOTE: .terraform.lock.hcl is intentionally tracked to pin provider versions
+
+# Account-specific backend configuration rendered from tracked templates
+/bootstrap/backend.tf
+environments/*.s3.tfbackend
+bootstrap/environments/*.s3.tfbackend
+
+# Account-specific, local-only migration evidence
+/audit/
+bootstrap/audit/
+
+# Plan and apply artifacts
+artifacts/
+tfplan
+*.tfplan
+*.tfout
+*.out
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local extracted RDS CA bundle from the reviewed archive (db_access.sh)
+/.db-access/
+
+# Local sensitive var files (environments/*.tfvars holds only non-sensitive values and stays tracked)
+*.auto.tfvars
+*.auto.tfvars.json
+terraform.tfvars
+terraform.tfvars.json
+*.local.tfvars
+
+# Lambda deployment ZIP built from sibling ../gootip-auth (single-file ESM bundle)
+*.zip
+lambda.zip
+/rds-ca-layer.zip.sha256
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Python caches (evaluator and standard-library test runner)
+__pycache__/
+*.pyc
+
+# Tool caches and reports
+.tflint.d/
+.tfsec/
+trivy-report.*
+tfsec-report.*
+
+# Local env files (secrets belong in Secrets Manager via console/CI put-secret-value, never in repo)
+.env
+.env.*
+/local/postgres.env
+/local/*.dump
+# direnv personal override (tracked .envrc stays shared, never edit it for personal use)
+.envrc.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~

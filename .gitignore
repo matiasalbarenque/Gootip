@@ -1,0 +1,5 @@
+# Root-level ignores (per-stack rules live in each folder's own .gitignore)
+.DS_Store
+Thumbs.db
+/gootip.postman_collection.json
+/.gootip.postman_collection.json.*.tmp

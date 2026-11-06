@@ -1,0 +1,60 @@
+{
+  "name": "gootip-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/build/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "build:lambda": "node scripts/build-lambda.mjs",
+    "lambda:zip": "node scripts/package-lambda.mjs",
+    "build:migration-lambda": "node scripts/build-migration-lambda.mjs",
+    "migration-lambda:zip": "node scripts/package-migration-lambda.mjs",
+    "migration:generate": "tsx ./node_modules/typeorm/cli.js migration:generate -d src/config/database/data-source.ts",
+    "migration:run": "tsx ./node_modules/typeorm/cli.js migration:run -d src/config/database/data-source.ts",
+    "migration:revert": "tsx ./node_modules/typeorm/cli.js migration:revert -d src/config/database/data-source.ts",
+    "migration:show": "tsx ./node_modules/typeorm/cli.js migration:show -d src/config/database/data-source.ts",
+    "test": "vitest run",
+    "test:unit": "node scripts/test-unit.mjs",
+    "test:integration": "node scripts/test-integration.mjs",
+    "test:integration:rotation": "vitest run test/credential-rotation.integration.spec.ts",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src/ test/ scripts/",
+    "format": "oxfmt src/ test/ scripts/ '*.json' '*.md' '*.yml' '!**/.agents/**'",
+    "format:check": "oxfmt --check src/ test/ scripts/ '*.json' '*.md' '*.yml' '!**/.agents/**'"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "3.1149.0",
+    "@codegenie/serverless-express": "5.0.0",
+    "@nestjs/common": "12.2.0",
+    "@nestjs/config": "12.0.1",
+    "@nestjs/core": "12.2.0",
+    "@nestjs/mapped-types": "^12.0.0",
+    "@nestjs/platform-express": "12.2.0",
+    "@nestjs/typeorm": "12.0.2",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.15.1",
+    "pg": "8.23.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "typeorm": "1.1.2"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.164",
+    "@types/node": "24.0.0",
+    "@types/pg": "8.23.1",
+    "esbuild": "0.28.2",
+    "oxfmt": "0.72.0",
+    "oxlint": "1.87.0",
+    "tsx": "4.20.6",
+    "typescript": "6.0.3",
+    "vitest": "5.0.3"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": "12.14.0"
+  },
+  "packageManager": "pnpm@12.14.0"
+}

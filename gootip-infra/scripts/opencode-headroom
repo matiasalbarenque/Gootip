@@ -1,0 +1,76 @@
+#!/bin/sh
+set -eu
+
+usage() {
+  echo 'Uso: gootip-infra/scripts/opencode-headroom {mini|run} --model proveedor/modelo [argumentos de OpenCode]' >&2
+  echo 'En run, seleccioná la variante con proveedor/modelo#variante cuando corresponda.' >&2
+  exit 2
+}
+
+case "${1:-}" in mini|run) ;; *) usage ;; esac
+model=
+expect_model=0
+for arg in "$@"; do
+  if [ "$expect_model" = 1 ]; then
+    model=$arg
+    expect_model=0
+    continue
+  fi
+  case "$arg" in
+    --model|-m) expect_model=1 ;;
+    --model=*) model=${arg#--model=} ;;
+    --server|--server=*) echo 'No se permite --server: el piloto requiere una instancia aislada.' >&2; exit 2 ;;
+  esac
+done
+case "$model" in */?*) ;; *) usage ;; esac
+[ "$expect_model" = 0 ] || usage
+
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+command -v opencode >/dev/null 2>&1 || { echo 'No se encontró opencode.' >&2; exit 1; }
+command -v headroom >/dev/null 2>&1 || { echo 'No se encontró headroom; consultá el README.' >&2; exit 1; }
+[ "$(headroom --version)" = 'headroom, version 0.41.0' ] || {
+  echo 'Este piloto requiere headroom-ai 0.41.0; consultá el README.' >&2
+  exit 1
+}
+
+project_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd -P)
+cd "$project_root"
+pilot_dir=$(mktemp -d "${TMPDIR:-/tmp}/gootip-headroom.XXXXXXXX")
+proxy_pid=
+cleanup() {
+  if [ -n "$proxy_pid" ]; then
+    kill "$proxy_pid" 2>/dev/null || :
+    wait "$proxy_pid" 2>/dev/null || :
+  fi
+  rm -r -- "$pilot_dir"
+}
+trap cleanup EXIT
+trap 'exit 1' HUP INT TERM
+
+# An OS-assigned port avoids reusing a proxy with unknown configuration.
+port=$(python3 -c 'import socket; s = socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')
+export OPENCODE_CONFIG="$pilot_dir/opencode.json"
+export HEADROOM_WORKSPACE_DIR="$pilot_dir/workspace"
+export HEADROOM_MODE=cache HEADROOM_CCR_BACKEND=memory
+export HEADROOM_BEACON=off HEADROOM_TELEMETRY=off HEADROOM_UPDATE_CHECK=off HEADROOM_OUTPUT_SHAPER=0
+unset HEADROOM_UDS
+
+echo "Piloto Headroom: proxy local en 127.0.0.1:$port; modelo $model" >&2
+headroom proxy --host 127.0.0.1 --port "$port" --workers 1 --mode cache --no-telemetry --no-learn >"$pilot_dir/proxy.log" 2>&1 &
+proxy_pid=$!
+ready=0
+for attempt in $(seq 1 30); do
+  if ! kill -0 "$proxy_pid" 2>/dev/null; then break; fi
+  if curl --noproxy '*' --silent --fail "http://127.0.0.1:$port/health" >/dev/null; then
+    ready=1
+    break
+  fi
+  sleep 1
+done
+if [ "$ready" != 1 ]; then
+  echo 'No se pudo iniciar el proxy local de Headroom:' >&2
+  sed -n '1,80p' "$pilot_dir/proxy.log" >&2
+  exit 1
+fi
+headroom wrap opencode --port "$port" --no-proxy --no-serena -- "$@"

@@ -1,0 +1,4 @@
+# Runtime dependencies bundled into the Lambda ZIP. Versions are pinned to match
+# pyproject.toml so the deployed archive is reproducible.
+boto3==1.43.114
+psycopg[binary]==3.3.6

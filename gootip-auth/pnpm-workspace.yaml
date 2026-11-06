@@ -1,0 +1,9 @@
+packages:
+  - .
+
+allowBuilds:
+  esbuild: true
+  oxc-resolver: true
+
+minimumReleaseAgeExclude:
+  - zod@4.6.6

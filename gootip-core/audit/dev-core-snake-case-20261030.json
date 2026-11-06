@@ -1,0 +1,361 @@
+{
+  "date": "2026-10-30",
+  "environment": "aws-dev",
+  "region": "us-east-2",
+  "release": {
+    "commit_sha": "9c5fd9b8878d0823c539b539f0a785fb5c94179a",
+    "manifest_sha256": "f864a96ccd1ce4b2b90b9cc2c6aac14f61414d07dffc2c68d23fd0af9a0a0632",
+    "code_sha256_base64": "JolJ1DUKkeKR/23eIStrOvX0QGzetawqNrxM8eokp5g=",
+    "version": "2"
+  },
+  "administrative_lambda": {
+    "code_sha256": "pcWrZkg+Eq3fjJ33A407yghMfPOa77f3neE3o49WD6k=",
+    "state": "Active",
+    "update": "Successful"
+  },
+  "terraform": {
+    "changes": 3,
+    "creates": 0,
+    "destroys": 0,
+    "scope": [
+      "lambda_db_config code",
+      "gootip-dev-core-migrations code",
+      "core deployment alias"
+    ],
+    "saved_plan_sha256": "0e084543e788237c571fcfa38473a278cedc2893b4b1ae35e2ea5d9484a9c284"
+  },
+  "invocations": {
+    "validate-before": {
+      "operation": "validate",
+      "run_id": "511a4bb5-c96a-496a-ba98-03364217c05e",
+      "commit_sha": "9c5fd9b8878d0823c539b539f0a785fb5c94179a",
+      "status": "succeeded",
+      "manifest_sha256": "f864a96ccd1ce4b2b90b9cc2c6aac14f61414d07dffc2c68d23fd0af9a0a0632",
+      "history_sha256": "86329e57e10a79b9cb9eeb014f9b51ae35f91e2b5a71cf7019768bb142190103",
+      "applied_names": [
+        "CreateCategories1782086400000",
+        "CreateProducts1793059200000"
+      ],
+      "pending_names": ["RenameCatalogColumnsToSnakeCase1793318400000"],
+      "error_code": null
+    },
+    "apply": {
+      "operation": "apply",
+      "run_id": "b9d271ee-bd11-4546-a8bc-1df3efe6ec4a",
+      "commit_sha": "9c5fd9b8878d0823c539b539f0a785fb5c94179a",
+      "status": "succeeded",
+      "manifest_sha256": "f864a96ccd1ce4b2b90b9cc2c6aac14f61414d07dffc2c68d23fd0af9a0a0632",
+      "history_sha256": "a3e7a7a527589968494e0157e4dec733ab549cb4295fd657e582f2a962983032",
+      "applied_names": [
+        "CreateCategories1782086400000",
+        "CreateProducts1793059200000",
+        "RenameCatalogColumnsToSnakeCase1793318400000"
+      ],
+      "pending_names": [],
+      "error_code": null
+    },
+    "validate-after": {
+      "operation": "validate",
+      "run_id": "bd97449d-e683-4c8f-aade-92c92f80222c",
+      "commit_sha": "9c5fd9b8878d0823c539b539f0a785fb5c94179a",
+      "status": "succeeded",
+      "manifest_sha256": "f864a96ccd1ce4b2b90b9cc2c6aac14f61414d07dffc2c68d23fd0af9a0a0632",
+      "history_sha256": "a3e7a7a527589968494e0157e4dec733ab549cb4295fd657e582f2a962983032",
+      "applied_names": [
+        "CreateCategories1782086400000",
+        "CreateProducts1793059200000",
+        "RenameCatalogColumnsToSnakeCase1793318400000"
+      ],
+      "pending_names": [],
+      "error_code": null
+    },
+    "repeat-apply": {
+      "operation": "apply",
+      "run_id": "346a7a16-e939-42b1-b4d4-da64b31f955d",
+      "commit_sha": "9c5fd9b8878d0823c539b539f0a785fb5c94179a",
+      "status": "no_changes",
+      "manifest_sha256": "f864a96ccd1ce4b2b90b9cc2c6aac14f61414d07dffc2c68d23fd0af9a0a0632",
+      "history_sha256": "a3e7a7a527589968494e0157e4dec733ab549cb4295fd657e582f2a962983032",
+      "applied_names": [
+        "CreateCategories1782086400000",
+        "CreateProducts1793059200000",
+        "RenameCatalogColumnsToSnakeCase1793318400000"
+      ],
+      "pending_names": [],
+      "error_code": null
+    }
+  },
+  "verification": {
+    "connection": "existing private tunnel; TLS verify-full; read-only SQL",
+    "data_hash_method": "SHA-256 of sorted canonical JSON rows; catalog column names normalized for comparison; no raw row data persisted",
+    "before": {
+      "identity": ["gootip", "gootip_dev_operator", true],
+      "data": {
+        "auth.account": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.gootip_schema_migrations": {
+          "rows": 2,
+          "sha256": "0ead027fdcdac4a5681deecee850d37e014043d1e58617450bbb27ed0c87f3c2"
+        },
+        "auth.jwks": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.rateLimit": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.session": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.user": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.verification": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.categories": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.products": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.typeorm_migrations": {
+          "rows": 2,
+          "sha256": "82d2505bbba34e99a5cdaa90d9a69616b9014fff97ff12964cf7e059268a8559"
+        }
+      },
+      "columns": [
+        ["categories", "id", "uuid"],
+        ["categories", "name", "character varying"],
+        ["categories", "description", "character varying"],
+        ["categories", "createdAt", "timestamp with time zone"],
+        ["categories", "updatedAt", "timestamp with time zone"],
+        ["products", "id", "uuid"],
+        ["products", "sku", "character varying"],
+        ["products", "name", "character varying"],
+        ["products", "description", "character varying"],
+        ["products", "categoryId", "uuid"],
+        ["products", "priceUsd", "numeric"],
+        ["products", "discountPercentage", "numeric"],
+        ["products", "stock", "integer"],
+        ["products", "images", "ARRAY"],
+        ["products", "status", "character varying"],
+        ["products", "createdAt", "timestamp with time zone"],
+        ["products", "updatedAt", "timestamp with time zone"],
+        ["typeorm_migrations", "id", "integer"],
+        ["typeorm_migrations", "timestamp", "bigint"],
+        ["typeorm_migrations", "name", "character varying"]
+      ],
+      "history": [
+        ["CreateCategories1782086400000", 1782086400000],
+        ["CreateProducts1793059200000", 1793059200000]
+      ],
+      "ownership_grants_sha256": "adde41aa5974b2291b12d2bacba09c3d65e759acafd5cdbfaf82ea95a012f2c4",
+      "default_grants_sha256": "513953e34811c3f2729992178088890d74a9d4f79afb49e1be90d8a893f09db1",
+      "role_attributes_sha256": "c49520629bd5d00e2215255e4981d531ec9c2fe038eaaf7c698cc97cb493e2ae",
+      "runtime_checks": [false, false, true, false, false]
+    },
+    "after": {
+      "identity": ["gootip", "gootip_dev_operator", true],
+      "data": {
+        "auth.account": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.gootip_schema_migrations": {
+          "rows": 2,
+          "sha256": "0ead027fdcdac4a5681deecee850d37e014043d1e58617450bbb27ed0c87f3c2"
+        },
+        "auth.jwks": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.rateLimit": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.session": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.user": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.verification": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.categories": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.products": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "core.typeorm_migrations": {
+          "rows": 3,
+          "sha256": "2b0ad9bca6046ba81fbf13e1d4e132f3786d7c65bf35696d8cff712227851cfb"
+        }
+      },
+      "columns": [
+        ["categories", "id", "uuid"],
+        ["categories", "name", "character varying"],
+        ["categories", "description", "character varying"],
+        ["categories", "created_at", "timestamp with time zone"],
+        ["categories", "updated_at", "timestamp with time zone"],
+        ["products", "id", "uuid"],
+        ["products", "sku", "character varying"],
+        ["products", "name", "character varying"],
+        ["products", "description", "character varying"],
+        ["products", "category_id", "uuid"],
+        ["products", "price_usd", "numeric"],
+        ["products", "discount_percentage", "numeric"],
+        ["products", "stock", "integer"],
+        ["products", "images", "ARRAY"],
+        ["products", "status", "character varying"],
+        ["products", "created_at", "timestamp with time zone"],
+        ["products", "updated_at", "timestamp with time zone"],
+        ["typeorm_migrations", "id", "integer"],
+        ["typeorm_migrations", "timestamp", "bigint"],
+        ["typeorm_migrations", "name", "character varying"]
+      ],
+      "history": [
+        ["CreateCategories1782086400000", 1782086400000],
+        ["CreateProducts1793059200000", 1793059200000],
+        ["RenameCatalogColumnsToSnakeCase1793318400000", 1793318400000]
+      ],
+      "ownership_grants_sha256": "adde41aa5974b2291b12d2bacba09c3d65e759acafd5cdbfaf82ea95a012f2c4",
+      "default_grants_sha256": "513953e34811c3f2729992178088890d74a9d4f79afb49e1be90d8a893f09db1",
+      "role_attributes_sha256": "c49520629bd5d00e2215255e4981d531ec9c2fe038eaaf7c698cc97cb493e2ae",
+      "runtime_checks": [false, false, true, false, false],
+      "indexes": [
+        [
+          "categories",
+          "PK_categories_id",
+          "CREATE UNIQUE INDEX \"PK_categories_id\" ON core.categories USING btree (id)"
+        ],
+        [
+          "categories",
+          "UQ_categories_name_lower",
+          "CREATE UNIQUE INDEX \"UQ_categories_name_lower\" ON core.categories USING btree (lower((name)::text))"
+        ],
+        [
+          "products",
+          "IDX_products_category_created_at_id",
+          "CREATE INDEX \"IDX_products_category_created_at_id\" ON core.products USING btree (category_id, created_at, id)"
+        ],
+        [
+          "products",
+          "IDX_products_created_at_id",
+          "CREATE INDEX \"IDX_products_created_at_id\" ON core.products USING btree (created_at, id)"
+        ],
+        [
+          "products",
+          "PK_products_id",
+          "CREATE UNIQUE INDEX \"PK_products_id\" ON core.products USING btree (id)"
+        ],
+        [
+          "products",
+          "UQ_products_sku_normalized",
+          "CREATE UNIQUE INDEX \"UQ_products_sku_normalized\" ON core.products USING btree (upper(btrim((sku)::text)))"
+        ],
+        [
+          "typeorm_migrations",
+          "typeorm_migrations_pkey",
+          "CREATE UNIQUE INDEX typeorm_migrations_pkey ON core.typeorm_migrations USING btree (id)"
+        ]
+      ],
+      "constraints": [
+        ["categories", "PK_categories_id", "PRIMARY KEY (id)"],
+        ["categories", "categories_createdAt_not_null", "NOT NULL created_at"],
+        ["categories", "categories_id_not_null", "NOT NULL id"],
+        ["categories", "categories_name_not_null", "NOT NULL name"],
+        ["categories", "categories_updatedAt_not_null", "NOT NULL updated_at"],
+        [
+          "products",
+          "CHK_products_discount_range",
+          "CHECK (((discount_percentage >= (0)::numeric) AND (discount_percentage <= (100)::numeric)))"
+        ],
+        [
+          "products",
+          "CHK_products_price_positive",
+          "CHECK ((price_usd > (0)::numeric))"
+        ],
+        [
+          "products",
+          "CHK_products_sku_normalized",
+          "CHECK (((sku)::text = upper(btrim((sku)::text))))"
+        ],
+        [
+          "products",
+          "CHK_products_status",
+          "CHECK (((status)::text = ANY ((ARRAY['draft'::character varying, 'published'::character varying, 'archived'::character varying])::text[])))"
+        ],
+        ["products", "CHK_products_stock_nonnegative", "CHECK ((stock >= 0))"],
+        [
+          "products",
+          "FK_products_category_id",
+          "FOREIGN KEY (category_id) REFERENCES core.categories(id)"
+        ],
+        ["products", "PK_products_id", "PRIMARY KEY (id)"],
+        ["products", "products_categoryId_not_null", "NOT NULL category_id"],
+        ["products", "products_createdAt_not_null", "NOT NULL created_at"],
+        [
+          "products",
+          "products_discountPercentage_not_null",
+          "NOT NULL discount_percentage"
+        ],
+        ["products", "products_id_not_null", "NOT NULL id"],
+        ["products", "products_images_not_null", "NOT NULL images"],
+        ["products", "products_name_not_null", "NOT NULL name"],
+        ["products", "products_priceUsd_not_null", "NOT NULL price_usd"],
+        ["products", "products_sku_not_null", "NOT NULL sku"],
+        ["products", "products_status_not_null", "NOT NULL status"],
+        ["products", "products_stock_not_null", "NOT NULL stock"],
+        ["products", "products_updatedAt_not_null", "NOT NULL updated_at"],
+        ["typeorm_migrations", "typeorm_migrations_id_not_null", "NOT NULL id"],
+        [
+          "typeorm_migrations",
+          "typeorm_migrations_name_not_null",
+          "NOT NULL name"
+        ],
+        ["typeorm_migrations", "typeorm_migrations_pkey", "PRIMARY KEY (id)"],
+        [
+          "typeorm_migrations",
+          "typeorm_migrations_timestamp_not_null",
+          "NOT NULL \"timestamp\""
+        ]
+      ]
+    },
+    "auth_data_and_history_unchanged": true,
+    "core_catalog_data_unchanged": true,
+    "ownership_and_grants_unchanged": true,
+    "role_attributes_unchanged": true,
+    "exact_seven_column_rename": true,
+    "runtime_dml_all_four_operations_on_both_catalog_tables": true,
+    "runtime_history_read_and_write_denied": true,
+    "foreign_key_and_index_use_renamed_columns": true
+  },
+  "validation": {
+    "core_unit_tests": 72,
+    "administrative_unit_tests": 86,
+    "core_typecheck": "passed",
+    "administrative_ruff": "passed",
+    "integration_evidence": "Reused successful SPEC 07 serial integration evidence for unchanged source inputs."
+  },
+  "limitations": [
+    "Catalog tables were empty before and after this AWS migration.",
+    "This AWS evidence does not resolve the historical local Auth comparison exception.",
+    "No administrative bootstrap invocation or Core API deployment was performed."
+  ]
+}
