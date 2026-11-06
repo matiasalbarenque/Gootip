@@ -25,5 +25,5 @@ terraform -chdir=bootstrap validate
 
 # Pure tests only: no Terraform plan is materialized.
 # The full driver runs these two classes against its shared rendered plans.
-uv run --with pytest==9.1.1 pytest -q \
+uv run --with pytest==9.1.1 pytest -q --durations=5 \
   -k 'not ExactVpcEndpointCapabilityTests and not LambdaHardeningPolicyTests' scripts/tests

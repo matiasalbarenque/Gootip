@@ -88,15 +88,16 @@ def run_interactive(
     env: Mapping[str, str],
     timeout: float = 30.0,
 ) -> InteractiveResult:
-    """Run ``zsh -i -c script`` under a pseudo-terminal.
+    """Run ``zsh -f -i -c script`` under a pseudo-terminal.
 
     A pty makes ``[[ -o interactive ]]`` and ``[[ -t 1 ]]`` true, which is the
     real condition the hook checks. No real command or network request is made:
-    only the fake ``aws`` CLI on ``PATH`` runs.
+    only the fake ``aws`` CLI on ``PATH`` runs. The ``-f`` option skips rc files
+    that can prompt before the hook runs.
     """
     master, slave = os.openpty()
     process = subprocess.Popen(
-        ["zsh", "-i", "-c", script],
+        ["zsh", "-f", "-i", "-c", script],
         cwd=str(cwd),
         env=dict(env),
         stdin=slave,
@@ -273,7 +274,6 @@ def mfa_environment(
         home = root / "home"
         aws_dir = home / ".aws"
         aws_dir.mkdir(parents=True)
-        (home / ".zshrc").write_text("")
         bin_dir = root / "bin"
         bin_dir.mkdir()
 

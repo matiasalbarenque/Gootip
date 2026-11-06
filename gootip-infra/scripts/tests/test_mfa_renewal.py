@@ -44,7 +44,7 @@ def run_interactive(environment, script: str, *, inside: bool = False):
 
 def run_noninteractive(environment, script: str):
     return subprocess.run(
-        ["zsh", "-c", script],
+        ["zsh", "-f", "-c", script],
         cwd=str(environment.home),
         env=dict(environment.env),
         capture_output=True,
@@ -64,6 +64,7 @@ def verify_calls(environment):
 class EntryTransitionTests(unittest.TestCase):
     def test_valid_session_is_reused_without_prompting(self):
         with fixtures.mfa_environment(fixtures.VALID) as environment:
+            (environment.home / ".zshrc").write_text("exit 42\n")
             result = run_interactive(environment, enter_from_outside())
             self.assertEqual(result.returncode, 0)
             self.assertEqual(len(verify_calls(environment)), 1)
