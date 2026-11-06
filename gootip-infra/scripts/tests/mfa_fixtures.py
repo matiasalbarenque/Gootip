@@ -273,6 +273,7 @@ def mfa_environment(
         home = root / "home"
         aws_dir = home / ".aws"
         aws_dir.mkdir(parents=True)
+        (home / ".zshrc").write_text("")
         bin_dir = root / "bin"
         bin_dir.mkdir()
 
