@@ -1136,12 +1136,19 @@ class IsolationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as source:
             root = Path(source)
             (root / "main.tf").write_text("resource {}")
+            (root / ".terraform.lock.hcl").write_text("# fixture lockfile\n")
             first = evaluator.IsolatedRoot("first", root, ("main.tf",), {"x": "1"})
             second = evaluator.IsolatedRoot("second", root, ("main.tf",), {"x": "2"})
             calls = []
 
             def run(command, **kwargs):
                 calls.append(command)
+                if command[1] == "init":
+                    self.assertIn("-lockfile=readonly", command)
+                    self.assertEqual(
+                        (Path(kwargs["cwd"]) / ".terraform.lock.hcl").read_bytes(),
+                        (root / ".terraform.lock.hcl").read_bytes(),
+                    )
                 if command[1] == "plan":
                     (Path(kwargs["cwd"]) / "policy.tfplan").write_text(
                         __import__("json").dumps({"variables": command[-1]})
@@ -1191,7 +1198,16 @@ class IsolationTests(unittest.TestCase):
              mock.patch.object(evaluator, "_read_plan", return_value=plan):
             rendered = evaluator.render_plan(evaluator.APPLICATION_MAXIMUM)
         self.assertEqual(run.call_count, 1)
-        self.assertEqual(run.call_args.args[0], ["terraform", "init", "-reconfigure"])
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                "terraform",
+                "init",
+                "-reconfigure",
+                "-input=false",
+                "-lockfile=readonly",
+            ],
+        )
         run_plan.assert_called_once()
         self.assertEqual(rendered, plan)
         self.assert_application_plan(plan)
