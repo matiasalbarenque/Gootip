@@ -1615,6 +1615,8 @@ resource "aws_iam_role_policy_attachment" "deployment_permissions" {
 # attached policy because GootipTerraformDeployPermissions is already close to the
 # 6144-character managed-policy limit and must not absorb new grants, and an
 # inline policy is not an accepted overflow mechanism.
+# SPEC 02.1 approves this exact-role, Lambda-only PassRole grant.
+#trivy:ignore:AVD-AWS-0342
 data "aws_iam_policy_document" "deployment_administrative_pass_role" {
   statement {
     sid     = "PassExactPrivateFunctionRoles"

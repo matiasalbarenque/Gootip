@@ -58,6 +58,14 @@ resource "aws_db_parameter_group" "postgres18" {
   }
 }
 
+# SPEC 02.2 approves one-day backups for the active Free Plan; nonzero retention
+# and deletion protection remain enabled.
+# SPEC 06 explicitly defers Performance Insights for the low-cost dev baseline.
+# SPEC 05.1 excludes RDS IAM database authentication; runtime uses its approved
+# database credential model.
+#trivy:ignore:AVD-AWS-0077
+#trivy:ignore:AVD-AWS-0133
+#trivy:ignore:AVD-AWS-0176
 resource "aws_db_instance" "main" {
   identifier = "${var.project}-${var.env}"
 

@@ -88,6 +88,8 @@ data "aws_iam_policy_document" "secretsmanager_endpoint" {
   }
 }
 
+# SPEC 06 explicitly defers VPC Flow Logs from the low-cost dev baseline.
+#trivy:ignore:AVD-AWS-0178
 resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
