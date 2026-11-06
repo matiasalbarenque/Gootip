@@ -69,6 +69,10 @@ data "aws_iam_policy_document" "operational_alarms_topic" {
   }
 }
 
+# Dev-only risk acceptance: SNS alarm contents are not encrypted at rest by this
+# topic. Review by 2026-12-06 or before using this topic outside dev, whichever
+# comes first.
+#trivy:ignore:AVD-AWS-0095:exp:2026-12-06
 resource "aws_sns_topic" "operational_alarms" {
   name = "${var.project}-${var.env}-operational-alarms"
 
