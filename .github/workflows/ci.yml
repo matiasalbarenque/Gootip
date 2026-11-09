@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0 (Node.js 24)
         with:
           python-version: '3.13'
       - name: Install uv
@@ -125,7 +125,7 @@ jobs:
         working-directory: gootip-infra
       - name: Validate archive layout, digests, manifests, and deployment sizes
         run: python3 gootip-infra/scripts/verify_release_artifacts.py --output "$RUNNER_TEMP/release-manifest.json"
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0 (Node.js 24)
         with:
           python-version: '3.13'
       - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
@@ -139,7 +139,7 @@ jobs:
           curl -fsSL https://github.com/terraform-linters/tflint/releases/download/v0.64.0/tflint_linux_amd64.zip -o "$RUNNER_TEMP/tflint.zip"
           unzip -q "$RUNNER_TEMP/tflint.zip" -d "$RUNNER_TEMP/tflint"
           sudo install "$RUNNER_TEMP/tflint/tflint" /usr/local/bin/tflint
-          curl -fsSL https://github.com/aquasecurity/trivy/releases/download/v0.76.0/trivy_0.76.0_Linux-64bit.tar.gz | tar -xz -C "$RUNNER_TEMP"
+          curl -fsSL https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz | tar -xz -C "$RUNNER_TEMP"
           sudo install "$RUNNER_TEMP/trivy" /usr/local/bin/trivy
           curl -LsSf https://astral.sh/uv/0.8.22/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -174,7 +174,7 @@ jobs:
           cache-dependency-path: |
             gootip-auth/pnpm-lock.yaml
             gootip-core/pnpm-lock.yaml
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0 (Node.js 24)
         with:
           python-version: '3.13'
       - name: Install pinned uv
