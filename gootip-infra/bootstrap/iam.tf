@@ -2287,14 +2287,14 @@ data "aws_iam_policy_document" "deployment_application_permissions" {
   }
 
   statement {
-    sid       = "ReadApiFunctionVersions"
+    sid       = "ReadExactApiFunctionVersions"
     effect    = "Allow"
     actions   = ["lambda:ListVersionsByFunction"]
     resources = [local.auth_api_function_arn, local.core_api_function_arn]
   }
 
   statement {
-    sid       = "ReadAuthMigrationDeploymentAlias"
+    sid       = "ReadAuthMigrationAlias"
     effect    = "Allow"
     actions   = ["lambda:GetAlias"]
     resources = [local.auth_migrations_deployment_alias_arn]
@@ -3149,14 +3149,14 @@ data "aws_iam_policy_document" "deployment_api_observability_permissions" {
   }
 
   statement {
-    sid       = "ReadAuthApiLogs"
+    sid       = "ReadExactAuthApiLogs"
     effect    = "Allow"
     actions   = ["logs:DescribeLogStreams", "logs:FilterLogEvents"]
     resources = local.auth_api_log_group_arns
   }
 
   statement {
-    sid       = "ReadAuthApiLogStreams"
+    sid       = "ReadExactAuthApiLogStreams"
     effect    = "Allow"
     actions   = ["logs:GetLogEvents"]
     resources = local.auth_api_log_stream_arns
