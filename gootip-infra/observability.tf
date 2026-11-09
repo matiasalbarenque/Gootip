@@ -69,6 +69,8 @@ data "aws_iam_policy_document" "operational_alarms_topic" {
   }
 }
 
+# Dev operational alerts contain no secrets or personal data; defer KMS until that scope changes.
+#trivy:ignore:AWS-0095
 resource "aws_sns_topic" "operational_alarms" {
   name = "${var.project}-${var.env}-operational-alarms"
 
@@ -300,6 +302,9 @@ resource "aws_cloudwatch_metric_alarm" "rds_database_connections" {
   }
 }
 
+# Project convention uses AWS-managed encryption and forbids new customer KMS
+# keys; CloudWatch Logs applies its AWS-owned key by default.
+#trivy:ignore:AVD-AWS-0017
 resource "aws_cloudwatch_log_group" "gootip_auth" {
   name              = "/aws/lambda/gootip-auth-${var.env}"
   retention_in_days = 7
@@ -312,6 +317,9 @@ resource "aws_cloudwatch_log_group" "gootip_auth" {
   }
 }
 
+# Project convention uses AWS-managed encryption and forbids new customer KMS
+# keys; CloudWatch Logs applies its AWS-owned key by default.
+#trivy:ignore:AVD-AWS-0017
 resource "aws_cloudwatch_log_group" "db_config" {
   name              = "/aws/lambda/lambda_db_config"
   retention_in_days = 7
@@ -324,6 +332,9 @@ resource "aws_cloudwatch_log_group" "db_config" {
   }
 }
 
+# Project convention uses AWS-managed encryption and forbids new customer KMS
+# keys; CloudWatch Logs applies its AWS-owned key by default.
+#trivy:ignore:AVD-AWS-0017
 resource "aws_cloudwatch_log_group" "api_access" {
   name              = "/aws/apigateway/${var.project}-${var.env}-auth"
   retention_in_days = 7

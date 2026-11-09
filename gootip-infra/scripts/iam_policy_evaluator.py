@@ -386,7 +386,15 @@ def render_plans(isolated_roots: list[IsolatedRoot]) -> dict[str, dict[str, Any]
             directory = Path(temporary)
             _write_isolated_root(representative, directory, dict(substitutions))
             subprocess.run(
-                ["terraform", "init", "-reconfigure"], cwd=directory, check=True,
+                [
+                    "terraform",
+                    "init",
+                    "-reconfigure",
+                    "-input=false",
+                    "-lockfile=readonly",
+                ],
+                cwd=directory,
+                check=True,
                 env=plugin_cache_env(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
             )
             for root in roots:
@@ -406,6 +414,9 @@ def _write_isolated_root(
             contents = contents.replace(reference, fixture)
         (directory / filename).write_text(contents)
 
+    (directory / ".terraform.lock.hcl").write_bytes(
+        (isolated_root.source_root / ".terraform.lock.hcl").read_bytes()
+    )
     (directory / "main.tf").write_text(TERRAFORM_CONFIGURATION)
     (directory / "providers.tf").write_text(PROVIDER_CONFIGURATION)
 
@@ -429,7 +440,15 @@ def plugin_cache_env() -> dict[str, str]:
 def _run_terraform_plan(directory: Path, variables: Mapping[str, str], *, initialize: bool = True) -> None:
     if initialize:
         subprocess.run(
-            ["terraform", "init", "-reconfigure"], cwd=directory, check=True,
+            [
+                "terraform",
+                "init",
+                "-reconfigure",
+                "-input=false",
+                "-lockfile=readonly",
+            ],
+            cwd=directory,
+            check=True,
             env=plugin_cache_env(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
     command = ["terraform", "plan", "-refresh=false", "-out=policy.tfplan"]

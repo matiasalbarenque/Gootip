@@ -2084,29 +2084,29 @@ run "spec10_api_capabilities_bind_to_exact_prepared_api_id" {
     condition = (
       one([
         for statement in jsondecode(data.aws_iam_policy_document.deployment_application_permissions.json).Statement : statement
-        if statement.Sid == "ReadApiFunctionVersions"
+        if statement.Sid == "ReadExactApiFunctionVersions"
       ]).Action == "lambda:ListVersionsByFunction" &&
       toset(one([
         for statement in jsondecode(data.aws_iam_policy_document.deployment_application_permissions.json).Statement : statement
-        if statement.Sid == "ReadApiFunctionVersions"
+        if statement.Sid == "ReadExactApiFunctionVersions"
         ]).Resource) == toset([
         "arn:aws:lambda:us-east-2:${var.aws_account_id}:function:gootip-auth-dev",
         "arn:aws:lambda:us-east-2:${var.aws_account_id}:function:gootip-core-dev",
       ]) &&
       one([
         for statement in jsondecode(data.aws_iam_policy_document.deployment_application_permissions.json).Statement : statement
-        if statement.Sid == "ReadAuthMigrationDeploymentAlias"
+        if statement.Sid == "ReadAuthMigrationAlias"
       ]).Resource == "arn:aws:lambda:us-east-2:${var.aws_account_id}:function:gootip-dev-auth-migrations:deployment" &&
       toset(one([
         for statement in jsondecode(data.aws_iam_policy_document.deployment_application_permissions.json).Statement : statement
-        if statement.Sid == "ReadAuthApiLogs"
+        if statement.Sid == "ReadExactAuthApiLogs"
         ]).Resource) == toset([
         "arn:aws:logs:us-east-2:${var.aws_account_id}:log-group:/aws/apigateway/gootip-dev-auth",
         "arn:aws:logs:us-east-2:${var.aws_account_id}:log-group:/aws/lambda/gootip-auth-dev",
       ]) &&
       one([
         for statement in jsondecode(data.aws_iam_policy_document.deployment_application_permissions.json).Statement : statement
-        if statement.Sid == "ReadAuthApiLogStreams"
+        if statement.Sid == "ReadExactAuthApiLogStreams"
       ]).Action == "logs:GetLogEvents"
     )
     error_message = "Auth verification reads must be limited to the exact Auth API, migration alias, and Auth log groups."

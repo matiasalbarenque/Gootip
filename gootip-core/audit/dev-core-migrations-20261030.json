@@ -115,21 +115,36 @@
       "cipher": "TLS_AES_256_GCM_SHA384"
     },
     "core_tables": [
-      {"name": "categories", "owner": "core_migrator"},
-      {"name": "products", "owner": "core_migrator"},
-      {"name": "typeorm_migrations", "owner": "core_migrator"}
+      { "name": "categories", "owner": "core_migrator" },
+      { "name": "products", "owner": "core_migrator" },
+      { "name": "typeorm_migrations", "owner": "core_migrator" }
     ],
     "history": [
-      {"name": "CreateCategories1782086400000", "timestamp": 1782086400000},
-      {"name": "CreateProducts1793059200000", "timestamp": 1793059200000}
+      { "name": "CreateCategories1782086400000", "timestamp": 1782086400000 },
+      { "name": "CreateProducts1793059200000", "timestamp": 1793059200000 }
     ],
     "runtime_effective_privileges": {
-      "categories": {"select": true, "insert": true, "update": true, "delete": true},
-      "products": {"select": true, "insert": true, "update": true, "delete": true},
+      "categories": {
+        "select": true,
+        "insert": true,
+        "update": true,
+        "delete": true
+      },
+      "products": {
+        "select": true,
+        "insert": true,
+        "update": true,
+        "delete": true
+      },
       "core_schema_usage": true,
       "core_schema_create": false,
-      "history_table": {"select": false, "insert": false, "update": false, "delete": false},
-      "history_sequence": {"usage": false, "select": false, "update": false},
+      "history_table": {
+        "select": false,
+        "insert": false,
+        "update": false,
+        "delete": false
+      },
+      "history_sequence": { "usage": false, "select": false, "update": false },
       "auth_relations_selectable": 0,
       "auth_relations_modifiable": 0,
       "auth_schema_usage": false,

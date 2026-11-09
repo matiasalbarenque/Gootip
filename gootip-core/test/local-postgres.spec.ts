@@ -5,6 +5,7 @@ import { assertCoreTestDatabase } from './local-postgres.js';
 const validEnv = (): NodeJS.ProcessEnv => ({
   POSTGRES_DB_HOST: '127.0.0.1',
   POSTGRES_DB_PORT: '5433',
+  LOCAL_POSTGRES_PORT: '5433',
   POSTGRES_DB_NAME: 'gootip_test_core',
   POSTGRES_DB_USER: 'test_core_runtime',
   POSTGRES_DB_PASSWORD: 'local-test-runtime',
@@ -15,6 +16,18 @@ const validEnv = (): NodeJS.ProcessEnv => ({
 describe('Core integration database guard', () => {
   it('accepts only the configured local test target', () => {
     expect(() => assertCoreTestDatabase(validEnv())).not.toThrow();
+  });
+
+  it('accepts the selected local port only when the test connection matches it', () => {
+    const alternatePortEnv = {
+      ...validEnv(),
+      LOCAL_POSTGRES_PORT: '55439',
+      POSTGRES_DB_PORT: '55439',
+    };
+    expect(() => assertCoreTestDatabase(alternatePortEnv)).not.toThrow();
+    expect(() =>
+      assertCoreTestDatabase({ ...alternatePortEnv, POSTGRES_DB_PORT: '5433' }),
+    ).toThrow();
   });
 
   it.each([

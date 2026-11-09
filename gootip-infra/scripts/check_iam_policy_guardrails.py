@@ -222,7 +222,7 @@ REVIEWED_WILDCARDS: dict[tuple[str, str, str], str] = {
         "Published Lambda version reads use the exact function ARN with a version suffix.",
     (
         "GootipTerraformDeployApplicationPermissions",
-        "ReadAuthApiLogStreams",
+        "ReadExactAuthApiLogStreams",
         "Resource",
     ): "CloudWatch assigns stream names dynamically; access is limited to streams in the two exact Auth API log groups.",
     ("GootipTerraformDeployCoreMigrationsPermissions", "ReadExactRdsCaLayerVersionsForCoreMigrations", "Resource"):

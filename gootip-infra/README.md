@@ -1927,6 +1927,12 @@ the operator reports that a manual test message published to the topic was
 received at the subscribed email address. This satisfies SPEC 06's scoped SNS
 delivery-test criterion; no Lambda failure or database load was induced.
 
+The dev operational-alert topic intentionally has no additional customer-managed
+KMS encryption. Its alert payloads contain no secrets or personal data, so this
+risk is accepted only for this topic; defer KMS unless that data scope changes.
+The Trivy AWS-0095 exception is attached only to
+`aws_sns_topic.operational_alarms`.
+
 The Terraform-managed fixed monthly actual-cost budget
 `gootip-dev-monthly-actual-cost` is USD 10 with one `ACTUAL` email notification
 when cost exceeds 80% (USD 8). The live budget is in `us-east-1`, the AWS

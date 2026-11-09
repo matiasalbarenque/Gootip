@@ -196,6 +196,10 @@ introduced.
 - **Yes:** one SNS topic for operational alarms and one simple actual-cost
   budget when eligible; dev uses USD 10/month with an actual-cost notification
   above 80%, excluding credits and refunds.
+- **Yes:** keep the dev operational-alert SNS topic without additional
+  customer-managed KMS encryption. These alerts contain no secrets or personal
+  data, and the accepted risk is limited to this dev topic. Defer KMS until the
+  alert data scope changes; this decision does not apply to other resources.
 - **Yes:** use native AWS credit-balance and expiration notifications for Free
   Plan lifecycle information.
 - **No:** PostgreSQL log export before public traffic or a concrete diagnostic
@@ -243,7 +247,8 @@ authorize a Paid Plan upgrade.
 | Existing log group conflicts with Terraform creation             | Inspect first and import/adopt it without deletion.                                              |
 | Wrong metric dimensions create silent alarms                     | Use exact function and database identifiers and inspect standard metric data.                    |
 | SNS subscription remains unconfirmed                             | Require confirmed subscription and one scoped delivery test.                                     |
-| Credits hide underlying service consumption                      | Keep the actual-cost basis explicit and document credits separately.                             |
+| Dev operational alerts lack customer-managed KMS encryption     | Accept for this topic because its alerts contain no secrets or personal data; revisit if scope changes. |
+| Credits hide underlying service consumption                     | Keep the actual-cost basis explicit and document credits separately.                             |
 | Budget feature is unavailable on the account plan                | Record the limitation and rely on native credit and expiration alerts without a paid workaround. |
 | Deferred public controls are mistaken for implemented protection | Name SPEC 10 as the owner and do not create or accept those alarms here.                         |
 
